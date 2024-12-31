@@ -48,7 +48,6 @@
         <section class="section">
             <h2>摘要</h2>
             <p>本研究探討從1990年至2020年不同地區的全球致災性大地震所造成的傷亡人數，透過大量時間篩選四個以上資料庫所提供的各樣參數，整合成多個預測變數，並選擇四個模型進行訓練與對照，最終探討該如何選擇預測變數與模型切割、各模型的表現優劣、出現各樣預測結果的可能性，並於最終篩選最適合的預測變數，嘗試找出複雜真實世界情況下的模型預測最佳結果。</p>
-            <img src="placeholder.jpg" alt="摘要相關圖示">
         </section>
 
         <section class="section">
@@ -65,7 +64,6 @@
                     最終題目：重大地震與傷亡人數探討
                     →好處：資料較多、蒐集較容易
                   </pre>
-                  <img src="placeholder.jpg" alt="相關圖示">
                 </section>
 
                 <section>
@@ -73,7 +71,7 @@
                   <pre>
                     我們在資料蒐集與處理花了大量時間，因其不算結果也不算後續的討論，我們將它們放在緒論一起介紹。我們蒐集、考量許多參數成為預測變數的可能性，有些因資料量不足、分類後不同類型比例過於懸殊等原因刪除了(例如Disaster subtype中Ground movement有600多筆Tsunami資料卻僅20多筆)，以下是資料集中最終留下的重要欄位，我們分別說明他們的來源與處理方式。
                   </pre>
-                  <img src="placeholder.jpg" alt="資料蒐集與處理">
+                  <img src="Graph/D3.png" alt="預測變量排除原因舉例">
                   <section>
                     <h4>傷亡人數、地震規模、時間:</h4>
                     <pre>
@@ -88,7 +86,8 @@
                       地震規模：因數值不會過大、可直接用於非線性模型，不做處理
                       時間：1990取1，1991取2...依此類推，此做法是考量到推論年代越久遠建築越不抗震，進行預處理
                        </pre>
-                    <img src="Graph/D1.png" alt="傷亡人數、地震規模、時間">
+                    <img src="Graph/D1.png" alt="EM-DAT">
+                    <img src="Graph/D5.png" alt="時間的處理">
                   </section>
 
                   <section>
@@ -100,6 +99,7 @@
                       <b>處理：</b> 
                       在資料集中，以"0"表示開發中國家，"1"表示已開發國家。
                        </pre>
+                       <img src="Graph/D2.png" alt="聯合國開發計畫署的國家分類系統">
                   </section>
                   <section>
                     <h4>地震震源深度(Depth):</h4>
@@ -110,6 +110,7 @@
                       <b>處理：</b> 
                       取對數(模型訓練時才利用程式碼取對數)，因相較於其他欄位，此欄數量級過大，大數值的特徵可能對模型權重影響較大，使其他特徵被忽略，取對數後使特徵影響更加均衡。
                        </pre>
+                       <img src="Graph/D4.png" alt="ISC-GEM Global Instrumental">
                   </section>
                   <section>
                     <h4>地震震度MMI</h4>
@@ -123,6 +124,8 @@
                       <b>處理：</b> 
                       因數值不會過大、可直接用於非線性模型，不做處理
                        </pre>
+                       <img src="Graph/D6.png" alt="USGS catalog網站單一地震資訊介面">
+                       <img src="Graph/D7.png" alt="USGS catalog網站地震查詢介面">
                   </section>
                   <section>
                     <h4>各國人均GDP(GDP_p)
@@ -228,9 +231,9 @@
                   </p>
                   <p><b>最終結果：</b>
                     預測變數：'GDP_p', 'Population density', 'MMI', 'Development'
-                    測試集 RMSE: 1.6207317129081882
-                    測試集 MAE: 1.3098344949692864
-                    測試集 R2: 0.2846096980920142
+                    測試集 RMSE: 1.598877965527347
+                    測試集 MAE: 1.2852532378997277
+                    測試集 R²: 0.22771507646639266
                   </p>
                 </section>
                 <section>
@@ -275,9 +278,25 @@
                   <p>原先的震源深度、地震規模、地震震度有線性相關問題，加上震度描述了地震實際在地表造成的效果，它是規模與深度在某種程度上的組合。所以要嘛就選擇地震震度，或選擇震源深度與地震規模，在其他預測變數皆決定後進行測試，發現若以Kernel Ridge Regression為例，選擇地震震度時R2值可達0.21，但若選擇震源深度與地震規模，僅0.07，三者皆考量則為0.20，可知直接使用地震震度即可(後續又使用隨機森林模型進行測試，效果相同。)</p>
                 </section>
                 <section>
-                    <h3>是否將時間列入預測變數</h3>
+                    <h3>視覺畫圖表結果討論1 - Visualize actual vs predicted values</h3>
                     <p>在此撰寫討論內小節3的內容。</p>
+                    <img src="Graph/ap1.png" alt="RandomForestRegressor">
+                    <img src="Graph/ap2.png" alt="Kernel Ridge Regression">
+                    <img src="Graph/ap3.jpg" alt="SVM Regression">
+                    <img src="Graph/ap4.jpg" alt="MLP Regression">
+                    <img src="Graph/ap5.jpg" alt="MLP and SVM ensemble model">
+
                 </section>
+                <section>
+                  <h3>視覺畫圖表結果討論2 - Residual analysis11</h3>
+                  <p>在此撰寫討論內小節3的內容。</p>
+                  <img src="Graph/ra1.png" alt="RandomForestRegressor">
+                  <img src="Graph/ra2.png" alt="Kernel Ridge Regression">
+                  <img src="Graph/ra3.jpg" alt="SVM Regression">
+                  <img src="Graph/ra4.jpg" alt="MLP Regression">
+                  <img src="Graph/ra5.jpg" alt="MLP and SVM ensemble model">
+
+              </section>
             </section>
 
             <section>
